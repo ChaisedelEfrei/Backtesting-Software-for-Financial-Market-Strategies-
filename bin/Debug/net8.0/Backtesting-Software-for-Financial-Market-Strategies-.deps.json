@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Backtesting-Software-for-Financial-Market-Strategies-/1.0.0": {
+        "runtime": {
+          "Backtesting-Software-for-Financial-Market-Strategies-.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Backtesting-Software-for-Financial-Market-Strategies-/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
