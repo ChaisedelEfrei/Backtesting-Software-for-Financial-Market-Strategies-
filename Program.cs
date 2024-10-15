@@ -7,9 +7,6 @@ using Backtesting_Software_for_Financial_Market_Strategies_.Classes;
 
 class Program
 {
-    private static readonly string apiKey = "YOUR_API_KEY";
-    private static readonly string baseUrl = "https://www.alphavantage.co/query?";
-
     static async Task Main(string[] args)
     {   
         AVAPI alpha_api = new AVAPI();
