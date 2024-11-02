@@ -10,7 +10,7 @@ namespace YourNamespace.Classes
     public class AlphaVantageService
     {
         private readonly HttpClient _httpClient;
-        private readonly string _apiKey = "NOHDA52BSLTHZCXV"; // Replace with your Alpha Vantage API key
+        private readonly string _apiKey = "67CR552L2NIPD2OM";//"NOHDA52BSLTHZCXV"; // Replace with your Alpha Vantage API key
         // Cache in memory to store stock data
         private static readonly Dictionary<string, CacheItem> _cache = new Dictionary<string, CacheItem>();
         private readonly TimeSpan _cacheDuration = TimeSpan.FromHours(1); // Cache lifetime (ex. 1 hour)
