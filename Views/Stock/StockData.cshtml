@@ -1,66 +1,201 @@
 @using Newtonsoft.Json
 @model List<YourNamespace.Models.StockDataModel>
 @{
-    ViewData["Title"]= "Data Vizualisation";
+    ViewData["Title"] = "Data Vizualisation";
 }
 <!DOCTYPE html>
-<html lang=eng></html>
+<html lang=eng>
+
+</html>
+
 <head>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="~/css/Stockdata.css">
 </head>
+
 <body>
     <div class="text-center p-4">
         <h2>Stock Data</h2>
         <p>Enter the symbol of the stock:</p>
-        <form asp-action="GetStockData" method="get">
-            <input type="text" name="symbol" class="input" placeholder="Type here...">
+        <form id="stockForm" method="get">
+            <input type="text" name="symbol" id="symbolInput" class="input" placeholder="Type here...">
             <button type="submit">Submit</button>
         </form>
     </div>
 
     <div id="candlestick-chart" style="width: 100%; height: 600px;"></div>
     <script type="text/javascript">
-        // Parse JSON data safely
-        var stockData = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model))');
+        $(document).ready(function () {
+            $('#stockForm').on('submit', function (e) {
+                e.preventDefault();
+                var symbol = $('#symbolInput').val();
 
-        // Extract stock symbol (assuming all entries have the same symbol)
-        var stockSymbol = stockData.length > 0 ? stockData[0].Symbol : "Unknown Symbol";
+                // AJAX call to get candlestick data
+                $.ajax({
+                    url: '/api/Stock/GetStockData',
+                    type: 'GET',
+                    data: { symbol: symbol },
+                    success: function (data) {
 
-        // Extract data for dates and prices for the candlestick chart
-        var dates = stockData.map(data => new Date(data.Date).toISOString().split('T')[0]);
-        var openPrices = stockData.map(data => data.Open);
-        var highPrices = stockData.map(data => data.High);
-        var lowPrices = stockData.map(data => data.Low);
-        var closePrices = stockData.map(data => data.Close);
+                        if (Array.isArray(data) && data.length > 0) {
+                            renderChart(data);
+                        } else {
+                            alert("No valid stock data available for the provided symbol.");
+                        }
 
-        // Define the trace for the candlestick chart
-        var trace = {
-            x: dates,
-            open: openPrices,
-            high: highPrices,
-            low: lowPrices,
-            close: closePrices,
-            type: 'candlestick',
-            xaxis: 'x',
-            yaxis: 'y'
-        };
-
-        // Define layout with the stock symbol in the title
-        var layout = {
-            title: `Candle graph of the Stock: ${stockSymbol}`,
-            xaxis: {
-                title: 'Date',
-                rangeslider: { visible: false }
-            },
-            yaxis: {
-                title: 'Price'
+                        // Fetch performance metrics only after validating data
+                        $.ajax({
+                            url: '/api/Stock/GetPerformanceMetrics',
+                            type: 'GET',
+                            data: { symbol: symbol },
+                            success: function (metrics) {
+                                if (metrics) {
+                                    renderMetricsOnChart(metrics);
+                                } else {
+                                    alert("Metrics data is unavailable for this stock.");
+                                }
+                            },
+                            error: function (xhr) {
+                                alert("Error fetching metrics: " + xhr.responseText);
+                            }
+                        });
+                    },
+                    error: function (xhr) {
+                        alert("Error fetching stock data: " + xhr.responseText);
+                    }
+                });
+            });
+        });
+        function renderChart(stockData) {
+            if (!Array.isArray(stockData) || stockData.length === 0) {
+                alert("No valid stock data available for the provided symbol.");
+                return; // Exit if stockData is not an array or is empty
             }
-        };
 
-        // Render the chart
-        Plotly.newPlot('candlestick-chart', [trace], layout);
-        
+            // Ensure that date field uses the correct lowercase key
+            var dates = stockData.map(data => {
+                let date = new Date(data.date); // Ensure lowercase 'date' here
+                if (isNaN(date)) {
+                    console.error("Invalid date encountered:", data.date); // Log invalid date
+                    return null; // Handle or skip invalid date entries as needed
+                }
+                return date.toISOString().split('T')[0];
+            }).filter(date => date !== null); // Filter out any invalid dates
+
+            var openPrices = stockData.map(data => data.open); // lowercase 'open'
+            var highPrices = stockData.map(data => data.high); // lowercase 'high'
+            var lowPrices = stockData.map(data => data.low);   // lowercase 'low'
+            var closePrices = stockData.map(data => data.close); // lowercase 'close'
+
+
+            var trace = {
+                x: dates,
+                open: openPrices,
+                high: highPrices,
+                low: lowPrices,
+                close: closePrices,
+                type: 'candlestick',
+                xaxis: 'x',
+                yaxis: 'y'
+            };
+
+            var layout = {
+                title: `Candle graph of the Stock: ${stockData[0].symbol}`,
+                xaxis: {
+                    title: 'Date',
+                    rangeslider: { visible: false }
+                },
+                yaxis: {
+                    title: 'Price'
+                },
+                annotations: []  // Empty initially; we will populate this with metrics
+            };
+
+            Plotly.newPlot('candlestick-chart', [trace], layout);
+        }
+
+        function renderMetricsOnChart(metrics) {
+            var annotations = [
+                {
+                    xref: 'paper',
+                    yref: 'paper',
+                    x: 0.02, // Adjusted position to be on the left side of the chart
+                    y: 1.1,
+                    xanchor: 'left',
+                    yanchor: 'top',
+                    text: `<b>Performance Metrics</b>`,
+                    showarrow: false,
+                    font: { size: 16, color: 'black' },
+                    bgcolor: 'rgba(255, 255, 255, 0.8)', // Add a semi-transparent background
+                    bordercolor: 'black',
+                    borderwidth: 1
+                },
+                {
+                    xref: 'paper',
+                    yref: 'paper',
+                    x: 0.02,
+                    y: 1.05,
+                    xanchor: 'left',
+                    yanchor: 'top',
+                    text: `Cumulative Return: ${(metrics.CumulativeReturn * 100).toFixed(2)}%`,
+                    showarrow: false,
+                    font: { color: 'black' },
+                    bgcolor: 'rgba(255, 255, 255, 0.8)'
+                },
+                {
+                    xref: 'paper',
+                    yref: 'paper',
+                    x: 0.02,
+                    y: 1.0,
+                    xanchor: 'left',
+                    yanchor: 'top',
+                    text: `Average Daily Return: ${(metrics.AverageDailyReturn * 100).toFixed(2)}%`,
+                    showarrow: false,
+                    font: { color: 'black' },
+                    bgcolor: 'rgba(255, 255, 255, 0.8)'
+                },
+                {
+                    xref: 'paper',
+                    yref: 'paper',
+                    x: 0.02,
+                    y: 0.95,
+                    xanchor: 'left',
+                    yanchor: 'top',
+                    text: `Volatility: ${(metrics.Volatility * 100).toFixed(2)}%`,
+                    showarrow: false,
+                    font: { color: 'black' },
+                    bgcolor: 'rgba(255, 255, 255, 0.8)'
+                },
+                {
+                    xref: 'paper',
+                    yref: 'paper',
+                    x: 0.02,
+                    y: 0.9,
+                    xanchor: 'left',
+                    yanchor: 'top',
+                    text: `Max Drawdown: ${(metrics.MaxDrawdown * 100).toFixed(2)}%`,
+                    showarrow: false,
+                    font: { color: 'black' },
+                    bgcolor: 'rgba(255, 255, 255, 0.8)'
+                },
+                {
+                    xref: 'paper',
+                    yref: 'paper',
+                    x: 0.02,
+                    y: 0.85,
+                    xanchor: 'left',
+                    yanchor: 'top',
+                    text: `Sharpe Ratio: ${metrics.SharpeRatio.toFixed(2)}`,
+                    showarrow: false,
+                    font: { color: 'black' },
+                    bgcolor: 'rgba(255, 255, 255, 0.8)'
+                }
+            ];
+
+            Plotly.relayout('candlestick-chart', { annotations: annotations });
+        }
+
     </script>
 </body>
 

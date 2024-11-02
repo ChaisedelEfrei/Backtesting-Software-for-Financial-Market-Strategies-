@@ -10,7 +10,7 @@ namespace YourNamespace.Classes
     public class AlphaVantageService
     {
         private readonly HttpClient _httpClient;
-        private readonly string _apiKey = "NOHDA52BSLTHZCXV"; // Replace with your Alpha Vantage API key
+        private readonly string _apiKey = "67CR552L2NIPD2OM"; // EZG642UW71DQQ49U NOHDA52BSLTHZCXV Replace with your Alpha Vantage API key
         // Cache in memory to store stock data
         private static readonly Dictionary<string, CacheItem> _cache = new Dictionary<string, CacheItem>();
         private readonly TimeSpan _cacheDuration = TimeSpan.FromHours(1); // Cache lifetime (ex. 1 hour)
@@ -86,6 +86,62 @@ namespace YourNamespace.Classes
             prices.Reverse(); // Reverse to get the data in chronological order
 
             return prices;
+        }
+        // metrics 
+        public async Task<Dictionary<string, double>> CalculatePerformanceMetrics(string symbol, string timeframe = "daily")
+        {
+            var prices = await GetClosingPricesAsync(symbol, timeframe);
+
+            if (prices.Count < 2)
+            {
+                throw new InvalidOperationException("Insufficient data to calculate metrics.");
+            }
+
+            // Cumulative Return
+            double cumulativeReturn = (prices.Last() - prices.First()) / prices.First();
+
+            // Daily Returns
+            List<double> dailyReturns = new List<double>();
+            for (int i = 1; i < prices.Count; i++)
+            {
+                double dailyReturn = (prices[i] - prices[i - 1]) / prices[i - 1];
+                dailyReturns.Add(dailyReturn);
+            }
+
+            // Average Daily Return
+            double averageDailyReturn = dailyReturns.Average();
+
+            // Volatility (Standard deviation of daily returns)
+            double volatility = Math.Sqrt(dailyReturns.Select(r => Math.Pow(r - averageDailyReturn, 2)).Sum() / dailyReturns.Count);
+
+            // Maximum Drawdown
+            double maxDrawdown = 0;
+            double peak = prices.First();
+            foreach (var price in prices)
+            {
+                if (price > peak)
+                {
+                    peak = price;
+                }
+                var drawdown = (peak - price) / peak;
+                if (drawdown > maxDrawdown)
+                {
+                    maxDrawdown = drawdown;
+                }
+            }
+
+            // Sharpe Ratio (Assuming a risk-free rate of 0 for simplicity)
+            double sharpeRatio = averageDailyReturn / volatility;
+
+            // Return metrics in a dictionary
+            return new Dictionary<string, double>
+            {
+                { "CumulativeReturn", cumulativeReturn },
+                { "AverageDailyReturn", averageDailyReturn },
+                { "Volatility", volatility },
+                { "MaxDrawdown", maxDrawdown },
+                { "SharpeRatio", sharpeRatio }
+            };
         }
     }
 }

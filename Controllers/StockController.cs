@@ -20,7 +20,7 @@ namespace YourNamespace.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            return View("StockData");
         }
 
         // Endpoint GET pour récupérer les données d'un stock par symbole
@@ -34,14 +34,39 @@ namespace YourNamespace.Controllers
             try
             {
                 var jsonData = await _alphaVantageService.GetStockDataAsync(symbol);
+                // Check if jsonData is null or contains an error message
+                if (jsonData == null || jsonData.Contains("Error Message"))
+                {
+                    return BadRequest("API limit reached or symbol data is unavailable. Please try again later.");
+                }
+
                 // Parse the JSON data into a list of StockDataModel
                 var stockData = ParseJsonToStockData(jsonData);
 
-                return View("StockData", stockData);
+                return Ok(stockData);
             }
             catch (HttpRequestException ex)
             {
                 return BadRequest($"Error fetching data for {symbol}: {ex.Message}");
+            }
+        }
+
+        //endpoint for performance metric
+        [HttpGet("GetPerformanceMetrics")]
+        public async Task<IActionResult> GetPerformanceMetrics(string symbol, string timeframe = "daily")
+        {
+            if (string.IsNullOrEmpty(symbol))
+            {
+                return BadRequest("Symbol is required.");
+            }
+            try
+            {
+                var metrics = await _alphaVantageService.CalculatePerformanceMetrics(symbol, timeframe);
+                return Ok(metrics);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error calculating metrics for {symbol}: {ex.Message}");
             }
         }
         // Helper method to parse JSON data into StockDataModel objects
@@ -50,6 +75,12 @@ namespace YourNamespace.Controllers
             var stockDataList = new List<StockDataModel>();
             var jsonObject = JsonConvert.DeserializeObject<dynamic>(jsonData);
             var timeSeries = jsonObject["Time Series (Daily)"];
+
+            if (timeSeries == null)
+            {
+                Console.WriteLine("Time series data is missing or malformed.");
+                return stockDataList;
+            }
 
             foreach (var dayData in timeSeries)
             {
@@ -67,5 +98,6 @@ namespace YourNamespace.Controllers
             }
             return stockDataList;
         }
+
     }
 }
