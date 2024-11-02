@@ -1,0 +1,18 @@
+@{
+    ViewData["Title"] = "Stock Data";
+}
+
+<head>
+    <link rel=stylesheet href="~/css/Index.css" asp-append-version="true" />
+</head>
+<body>
+    <h2 style="text-align: center;">Stock Data</h2>
+    <div class="text-center p-4">
+        <p>Enter the symbol of the stock:</p>
+        <form asp-action="GetStockData" method="get">
+            <input type="text" name="symbol" class="input" placeholder="Type here...">
+            </br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>

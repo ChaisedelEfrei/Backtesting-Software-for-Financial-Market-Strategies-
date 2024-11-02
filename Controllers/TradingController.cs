@@ -10,7 +10,7 @@ namespace YourNamespace.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TradingController : ControllerBase
+    public class TradingController : Controller
     {
         private readonly AlphaVantageService _alphaVantageService;
 
@@ -18,9 +18,51 @@ namespace YourNamespace.Controllers
         {
             _alphaVantageService = alphaVantageService;
         }
+        /* each view for tge strategies */
+        // Main Index action for the Trading controller
+        [HttpGet("")]
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        // View for Moving Average Crossover Strategy
+        [HttpGet("MovingAverageCrossover")]
+        public IActionResult MovingAverageCrossover()
+        {
+            return View();
+        }
+
+        // View for Mean Reversion Strategy
+        [HttpGet("MeanReversionStrategy")]
+        public IActionResult MeanReversionStrategy()
+        {
+            return View();
+        }
+
+        // View for Momentum Strategy
+        [HttpGet("Momentum")]
+        public IActionResult Momentum()
+        {
+            return View();
+        }
+
+        // View for Breakout Strategy
+        [HttpGet("BreakoutStrategy")]
+        public IActionResult BreakoutStrategy()
+        {
+            return View();
+        }
+
+        // View for Custom Strategy
+        [HttpGet("CustomStrategy")]
+        public IActionResult CustomStrategy()
+        {
+            return View();
+        }
 
         // Endpoint GET pour exécuter la stratégie de Momentum
-        [HttpGet("momentum")]
+        [HttpGet("executemomentum")]
         public async Task<IActionResult> ExecuteMomentumStrategy([FromQuery] string symbol, [FromQuery] int lookbackPeriod, [FromQuery] string timeframe = "daily")
         {
             try
@@ -53,7 +95,7 @@ namespace YourNamespace.Controllers
         }
 
         // Endpoint GET pour exécuter la stratégie de Moving Average Crossover
-        [HttpGet("movingAverageCrossover")]
+        [HttpGet("executemovingAverageCrossover")]
         public async Task<IActionResult> ExecuteMovingAverageCrossoverStrategy([FromQuery] string symbol, [FromQuery] int shortPeriod, [FromQuery] int longPeriod, [FromQuery] string timeframe = "daily")
         {
             try
@@ -87,7 +129,7 @@ namespace YourNamespace.Controllers
         }
 
         // Endpoint GET pour exécuter la stratégie de Mean Reversion
-        [HttpGet("meanReversion")]
+        [HttpGet("executemeanReversion")]
         public async Task<IActionResult> ExecuteMeanReversionStrategy([FromQuery] string symbol, [FromQuery] int lookbackPeriod, [FromQuery] double threshold, [FromQuery] string timeframe = "daily")
         {
             try
@@ -121,7 +163,7 @@ namespace YourNamespace.Controllers
         }
 
         // Endpoint GET pour exécuter la stratégie de Breakout
-        [HttpGet("breakout")]
+        [HttpGet("executebreakout")]
         public async Task<IActionResult> ExecuteBreakoutStrategy([FromQuery] string symbol, [FromQuery] int lookbackPeriod, [FromQuery] string timeframe = "daily")
         {
             try
@@ -173,8 +215,8 @@ namespace YourNamespace.Controllers
             {
                 ITradingStrategy? strategy = strategyRequest.Type switch
                 {
-                    "momentum" => strategyRequest.LookbackPeriod.HasValue 
-                        ? new MomentumStrategy(strategyRequest.LookbackPeriod.Value) 
+                    "momentum" => strategyRequest.LookbackPeriod.HasValue
+                        ? new MomentumStrategy(strategyRequest.LookbackPeriod.Value)
                         : null,
                     "movingAverageCrossover" => (strategyRequest.ShortPeriod.HasValue && strategyRequest.LongPeriod.HasValue)
                         ? new MovingAverageCrossoverStrategy(strategyRequest.ShortPeriod.Value, strategyRequest.LongPeriod.Value)
@@ -187,12 +229,12 @@ namespace YourNamespace.Controllers
                         : null,
                     _ => null
                 };
-                
+
                 if (strategy == null)
                 {
                     return BadRequest($"Invalid or missing parameters for strategy type: {strategyRequest.Type}");
                 }
-                
+
                 customStrategy.AddStrategy(strategy!);
             }
 
