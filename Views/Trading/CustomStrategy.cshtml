@@ -1,0 +1,151 @@
+@{
+    ViewData["Title"] = "Mean Reversion Strategy";
+}
+@model List<string>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel=stylesheet href="~/css/Strategy.css" asp-append-version="true" />
+</head>
+
+<body>
+    <div class="container_body">
+        <h2>Create Custom Strategy</h2>
+        <form id="customStrategyForm">
+            <div>
+                <label for="name">Strategy Name:</label>
+                <input type="text" id="name" name="name" required placeholder="Enter strategy name">
+            </div>
+            <div>
+                <label for="combinationRule">Combination Rule:</label>
+                <select id="combinationRule" name="combinationRule" required>
+                    <option value="AND">AND</option>
+                    <option value="OR">OR</option>
+                </select>
+            </div>
+            <div>
+                <label for="symbol">Symbol:</label>
+                <input type="text" id="symbol" name="symbol" required placeholder="Enter stock symbol">
+            </div>
+            <div>
+                <label for="timeframe">Timeframe:</label>
+                <select id="timeframe" name="timeframe">
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                </select>
+            </div>
+
+            <h3>Strategies</h3>
+            <div id="strategies">
+                <!-- Dynamic strategy fields will be added here -->
+            </div>
+            <button type="button" onclick="addStrategy()">Add Strategy</button>
+            <button type="submit">Submit</button>
+        </form>
+
+        <div id="result" class="result" style="display: none;">
+            <h3>Strategy Result</h3>
+            <p><strong>Strategy:</strong> <span id="resultStrategy"></span></p>
+            <p><strong>Combination Rule:</strong> <span id="resultCombinationRule"></span></p>
+            <p><strong>Symbol:</strong> <span id="resultSymbol"></span></p>
+            <p><strong>Timeframe:</strong> <span id="resultTimeframe"></span></p>
+            <p><strong>Buy Signal:</strong> <span id="buySignal"></span></p>
+            <p><strong>Sell Signal:</strong> <span id="sellSignal"></span></p>
+        </div>
+    </div>
+
+    <script>
+        let strategyCount = 0;
+
+        function addStrategy() {
+            strategyCount++;
+            const strategyHtml = `
+                <div class="strategy">
+                    <h4>Strategy ${strategyCount}</h4>
+                    <div>
+                        <label for="strategyType${strategyCount}">Type:</label>
+                        <select id="strategyType${strategyCount}" name="strategies[${strategyCount - 1}].type" required>
+                            <option value="momentum">Momentum</option>
+                            <option value="movingAverageCrossover">Moving Average Crossover</option>
+                            <option value="meanReversion">Mean Reversion</option>
+                            <option value="breakout">Breakout</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="lookbackPeriod${strategyCount}">Lookback Period (if applicable):</label>
+                        <input type="number" id="lookbackPeriod${strategyCount}" name="strategies[${strategyCount - 1}].lookbackPeriod" placeholder="Enter lookback period">
+                    </div>
+                    <div>
+                        <label for="shortPeriod${strategyCount}">Short Period (if applicable):</label>
+                        <input type="number" id="shortPeriod${strategyCount}" name="strategies[${strategyCount - 1}].shortPeriod" placeholder="Enter short period">
+                    </div>
+                    <div>
+                        <label for="longPeriod${strategyCount}">Long Period (if applicable):</label>
+                        <input type="number" id="longPeriod${strategyCount}" name="strategies[${strategyCount - 1}].longPeriod" placeholder="Enter long period">
+                    </div>
+                    <div>
+                        <label for="threshold${strategyCount}">Threshold (if applicable):</label>
+                        <input type="number" id="threshold${strategyCount}" name="strategies[${strategyCount - 1}].threshold" placeholder="Enter threshold">
+                    </div>
+                </div>
+            `;
+            $("#strategies").append(strategyHtml);
+        }
+
+        $("#customStrategyForm").on("submit", function (e) {
+            e.preventDefault();
+
+            const formData = {
+                name: $("#name").val(),
+                combinationRule: $("#combinationRule").val(),
+                symbol: $("#symbol").val(),
+                timeframe: $("#timeframe").val(),
+                strategies: []
+            };
+
+            $(".strategy").each(function () {
+                const strategy = {
+                    type: $(this).find("select[name^='strategies']").val(),
+                    lookbackPeriod: $(this).find("input[name^='strategies'][name$='.lookbackPeriod']").val() || null,
+                    shortPeriod: $(this).find("input[name^='strategies'][name$='.shortPeriod']").val() || null,
+                    longPeriod: $(this).find("input[name^='strategies'][name$='.longPeriod']").val() || null,
+                    threshold: $(this).find("input[name^='strategies'][name$='.threshold']").val() || null
+                };
+
+                // Convert empty values to null
+                for (const key in strategy) {
+                    if (strategy[key] === "") {
+                        strategy[key] = null;
+                    }
+                }
+
+                formData.strategies.push(strategy);
+            });
+
+            $.ajax({
+                url: 'http://localhost:5107/api/Trading/createCustomStrategy', // Ensure this URL is correct
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function (data) {
+                    $("#resultStrategy").text(data.strategy);
+                    $("#resultCombinationRule").text(data.combinationRule);
+                    $("#resultSymbol").text(data.symbol);
+                    $("#resultTimeframe").text(data.timeframe);
+                    $("#buySignal").text(data.buySignal ? "Yes" : "No");
+                    $("#sellSignal").text(data.sellSignal ? "Yes" : "No");
+
+                    $("#result").show();
+                },
+                error: function (xhr, status, error) {
+                    alert("Error: " + xhr.responseText);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

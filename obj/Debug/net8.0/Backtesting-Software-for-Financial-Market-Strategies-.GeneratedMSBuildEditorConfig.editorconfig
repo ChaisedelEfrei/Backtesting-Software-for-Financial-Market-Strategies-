@@ -9,39 +9,71 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Backtesting_Software_for_Financial_Market_Strategies_
 build_property.RootNamespace = Backtesting_Software_for_Financial_Market_Strategies_
-build_property.ProjectDir = D:\Général\Cours EFREI\M1 2024-2025\S1\OO Systems Development\Projet\Backtesting-Software-for-Financial-Market-Strategies-\
+build_property.ProjectDir = /Users/elodie/backtesting_app/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\Général\Cours EFREI\M1 2024-2025\S1\OO Systems Development\Projet\Backtesting-Software-for-Financial-Market-Strategies-
+build_property.MSBuildProjectDirectory = /Users/elodie/backtesting_app
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/Général/Cours EFREI/M1 2024-2025/S1/OO Systems Development/Projet/Backtesting-Software-for-Financial-Market-Strategies-/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+[/Users/elodie/backtesting_app/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Général/Cours EFREI/M1 2024-2025/S1/OO Systems Development/Projet/Backtesting-Software-for-Financial-Market-Strategies-/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+[/Users/elodie/backtesting_app/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Général/Cours EFREI/M1 2024-2025/S1/OO Systems Development/Projet/Backtesting-Software-for-Financial-Market-Strategies-/Views/Shared/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+[/Users/elodie/backtesting_app/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Général/Cours EFREI/M1 2024-2025/S1/OO Systems Development/Projet/Backtesting-Software-for-Financial-Market-Strategies-/Views/Shared/_ValidationScriptsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+[/Users/elodie/backtesting_app/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Général/Cours EFREI/M1 2024-2025/S1/OO Systems Development/Projet/Backtesting-Software-for-Financial-Market-Strategies-/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[/Users/elodie/backtesting_app/Views/Stock/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3RvY2svSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Général/Cours EFREI/M1 2024-2025/S1/OO Systems Development/Projet/Backtesting-Software-for-Financial-Market-Strategies-/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+[/Users/elodie/backtesting_app/Views/Stock/StockData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3RvY2svU3RvY2tEYXRhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Général/Cours EFREI/M1 2024-2025/S1/OO Systems Development/Projet/Backtesting-Software-for-Financial-Market-Strategies-/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-4pfd4js4zk
+[/Users/elodie/backtesting_app/Views/Trading/BreakoutStrategy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVHJhZGluZy9CcmVha291dFN0cmF0ZWd5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/elodie/backtesting_app/Views/Trading/CustomStrategy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVHJhZGluZy9DdXN0b21TdHJhdGVneS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/elodie/backtesting_app/Views/Trading/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVHJhZGluZy9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/elodie/backtesting_app/Views/Trading/MeanReversionStrategy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVHJhZGluZy9NZWFuUmV2ZXJzaW9uU3RyYXRlZ3kuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/elodie/backtesting_app/Views/Trading/Momentum.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVHJhZGluZy9Nb21lbnR1bS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/elodie/backtesting_app/Views/Trading/MovingAverageCrossover.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVHJhZGluZy9Nb3ZpbmdBdmVyYWdlQ3Jvc3NvdmVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/elodie/backtesting_app/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/elodie/backtesting_app/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/elodie/backtesting_app/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-whxjyl3iuc

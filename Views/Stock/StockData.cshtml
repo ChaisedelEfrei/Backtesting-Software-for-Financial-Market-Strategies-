@@ -1,0 +1,67 @@
+@using Newtonsoft.Json
+@model List<YourNamespace.Models.StockDataModel>
+@{
+    ViewData["Title"]= "Data Vizualisation";
+}
+<!DOCTYPE html>
+<html lang=eng></html>
+<head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="~/css/Stockdata.css">
+</head>
+<body>
+    <div class="text-center p-4">
+        <h2>Stock Data</h2>
+        <p>Enter the symbol of the stock:</p>
+        <form asp-action="GetStockData" method="get">
+            <input type="text" name="symbol" class="input" placeholder="Type here...">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div id="candlestick-chart" style="width: 100%; height: 600px;"></div>
+    <script type="text/javascript">
+        // Parse JSON data safely
+        var stockData = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model))');
+
+        // Extract stock symbol (assuming all entries have the same symbol)
+        var stockSymbol = stockData.length > 0 ? stockData[0].Symbol : "Unknown Symbol";
+
+        // Extract data for dates and prices for the candlestick chart
+        var dates = stockData.map(data => new Date(data.Date).toISOString().split('T')[0]);
+        var openPrices = stockData.map(data => data.Open);
+        var highPrices = stockData.map(data => data.High);
+        var lowPrices = stockData.map(data => data.Low);
+        var closePrices = stockData.map(data => data.Close);
+
+        // Define the trace for the candlestick chart
+        var trace = {
+            x: dates,
+            open: openPrices,
+            high: highPrices,
+            low: lowPrices,
+            close: closePrices,
+            type: 'candlestick',
+            xaxis: 'x',
+            yaxis: 'y'
+        };
+
+        // Define layout with the stock symbol in the title
+        var layout = {
+            title: `Candle graph of the Stock: ${stockSymbol}`,
+            xaxis: {
+                title: 'Date',
+                rangeslider: { visible: false }
+            },
+            yaxis: {
+                title: 'Price'
+            }
+        };
+
+        // Render the chart
+        Plotly.newPlot('candlestick-chart', [trace], layout);
+        
+    </script>
+</body>
+
+</html>

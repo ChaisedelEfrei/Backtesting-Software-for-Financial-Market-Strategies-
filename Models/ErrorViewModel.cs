@@ -1,4 +1,4 @@
-namespace Backtesting_Software_for_Financial_Market_Strategies_.Models;
+namespace YourNamespace.Models;
 
 public class ErrorViewModel
 {
