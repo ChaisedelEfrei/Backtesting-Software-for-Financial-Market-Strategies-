@@ -1,8 +1,64 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<head>
+    <link rel=stylesheet href="~/css/Index.css" asp-append-version="true" />
+</head>
+<!-- to do : autoplaying + indiactors + caption-->
+<div clas="container">
+    <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        </div>
+        <div class="carousel-inner rounded-3"> 
+            <div class="carousel-item active">
+                <svg class="bd-placeholder-img rounded-3" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                <rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+                <div class="container">
+                    <div class="carousel-caption text-start">
+                        <h1>What we did</h1>
+                        <p class="opacity-75">
+                            We are a group of 5 engeneers which are reunitied with a common mission making Finace more understandable
+                            for the public. We are using the latest technologies to make this possible. Our app is the result of our researches
+                            and undying wish to make Finance more accessible to the public. Our team is developing a backtesting application in C# 
+                            using the .NET framework, designed to retrieve historical financial data from the Alpha Vantage API. 
+                            This app empowers users to define, test, and refine trading strategies on historical market data, 
+                            offering detailed performance evaluations based on key financial metrics. 
+                            It serves as a powerful tool for traders and analysts to assess the effectiveness of strategies before deploying them in live markets.
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <svg class="bd-placeholder-img rounded-3" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+                <div class="container">
+                    <div class="carousel-caption text-start">
+                        <h1>Who we are</h1>
+                        <p class="opacity-75">We are made of a small group of engineers : 
+                            <ul class="opacity-75">
+                                <li>Nathan Krief : backend developper specialized in financial strategies</li>
+                                <li>Louis Geslin : bakcend developper specialized in financial metrics </li>
+                                <li>Cyprien Guibault : backend developper polyvalent</li>
+                                <li>Elodie Coulloc'h: frontend developper specialized in HTML and CSS</li>
+                                <li>Salomé Clavière--Lecomte : frontend developper</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>  
+        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+   
 </div>
+
+    

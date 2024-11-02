@@ -1,0 +1,93 @@
+@{
+    ViewData["Title"] = "Trading Strategies";
+}
+@model List<string>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel=stylesheet href="~/css/Index.css" asp-append-version="true" />
+</head>
+
+<body>
+    <div class="container my-5">
+        <!-- Moving Average Crossover Strategy -->
+        <div class="jumbotron">
+            <h2 class="display-4">Moving Average Crossover Strategy</h2>
+            <p class="lead">
+                <strong>Overview: </strong></br>The Moving Average Crossover strategy uses two moving averages of different periods – typically a short-term and a long-term – to identify potential trend reversals. The crossover of these averages indicates changes in market momentum and generates buy/sell signals.
+            </p>
+            <p><strong>Formula:</strong></p>
+            <p>When short-term moving average crosses above long-term moving average, it signals a potential buy.</p>
+            <p>When short-term moving average crosses below long-term moving average, it signals a potential sell.</p>
+            <p class="highlight">\[ \text{Buy Signal: } MA_{short} > MA_{long} \]</p>
+            <p class="highlight">\[ \text{Sell Signal: } MA_{short} < MA_{long} \]</p>
+            <div wtyle="text-align:center">
+                <a asp-controller="Trading" asp-action="MovingAverageCrossover" class="btn btn-primary">Try it</a>
+            </div>
+        </div>
+
+        <!-- Mean Reversion Strategy -->
+        <div class="jumbotron">
+            <h2 class="display-4">Mean Reversion Strategy</h2>
+            <p class="lead">
+                </strong>Overview: </strong></br>Mean reversion assumes that prices will revert to their historical average over time. This strategy aims to capitalize on short-term price deviations from the mean, buying assets when they are undervalued (oversold) and selling when they are overvalued (overbought).
+            </p>
+            <p><strong>Formula:</strong></p>
+            <p>Identify mean and calculate deviation.</p>
+            <p class="highlight">\[ \text{Deviation} = P_t - \text{Mean} \]</p>
+            <p>If deviation is positive and above a threshold, it signals overvaluation (sell).</p>
+            <p>If deviation is negative and below a threshold, it signals undervaluation (buy).</p>
+            <a asp-controller="Trading" asp-action="MeanReversionStrategy" class="btn btn-primary">Try it</a>
+        </div>
+
+        <!-- Momentum Strategy -->
+        <div class="jumbotron">
+            <h2 class="display-4">Momentum Strategy</h2>
+            <p class="lead">
+                <strong>Overview:</strong> </br>Momentum strategies rely on the idea that assets that perform well in a given period are likely to continue performing well. This strategy seeks to enter trades in the direction of strong market trends.
+            </p>
+            <p><strong>Formula:</strong></p>
+            <p>Calculate momentum based on price difference over a period.</p>
+            <p class="highlight">\[ \text{Momentum} = P_t - P_{t-n} \]</p>
+            <p>Buy if momentum is positive and above a threshold. Sell if momentum is negative and below a threshold.</p>
+            <a asp-controller="Trading" asp-action="Momentum" class="btn btn-primary">Try it</a>
+        </div>
+
+        <!-- Breakout Strategy -->
+        <div class="jumbotron">
+            <h2 class="display-4">Breakout Strategy</h2>
+            <p class="lead">
+                <strong>Overview:</strong></br>Breakout strategies aim to profit from assets that break out of a defined trading range, indicating a new trend. The breakout could be above resistance or below support levels.
+            </p>
+            <p><strong>Formula:</strong></p>
+            <p>Define support and resistance levels.</p>
+            <p class="highlight">\[ \text{Resistance Level: } P_{resistance} \]</p>
+            <p class="highlight">\[ \text{Support Level: } P_{support} \]</p>
+            <p class="highlight">Buy if price breaks above \( P_{resistance} \).</p>
+            <p class="highlight">Sell if price breaks below \( P_{support} \).</p>
+            <a asp-controller="Trading" asp-action="BreakoutStrategy" class="btn btn-primary">Try it</a>
+        </div>
+
+        <!-- Custom Strategy -->
+        <div class="jumbotron">
+            <h2 class="display-4">Custom Strategy: User Defined</h2>
+            <p class="lead">
+                <strong>Overview:</strong></br> A custom strategy defined by the user based on unique parameters or conditions.
+            </p>
+            <p><strong>Formula:</strong></p>
+            <p>Define custom conditions and formulas based on user input.</p>
+            <p class="highlight">\[ \text{Custom Formula: } f(x) \]</p>
+            <a asp-controller="Trading" asp-action="CustomStrategy" class="btn btn-primary">Try it</a>
+        </div>
+    </div>
+
+        
+</body>
+
+</html>

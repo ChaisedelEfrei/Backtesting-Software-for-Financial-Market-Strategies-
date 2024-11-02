@@ -1,29 +1,30 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
+using Microsoft.Extensions.Hosting;
+using YourNamespace.Classes;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Ajouter le service HttpClient pour l'injection
+builder.Services.AddHttpClient<AlphaVantageService>();
+builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
-builder.Services.AddHttpClient<AlphaVantageService>(); // AlphaVantageService is a custom service in Controllers folder
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
 
+
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    name : "default",
+    pattern : "{controller=Home}/{action=Index}/{id?}"
+); // Permet de mapper le contrôleur API
+
+
 
 app.Run();

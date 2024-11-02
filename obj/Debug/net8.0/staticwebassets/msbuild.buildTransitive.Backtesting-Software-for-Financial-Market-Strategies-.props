@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../buildMultiTargeting/Backtesting-Software-for-Financial-Market-Strategies-.props" />
-</Project>
